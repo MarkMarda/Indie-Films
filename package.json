@@ -1,0 +1,20 @@
+{
+  "name": "indie-films",
+  "version": "1.0.0",
+  "description": "CRUD of indie films around the world",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "CRUD",
+    "indie",
+    "films",
+    "nodejs",
+    "express"
+  ],
+  "author": "Marda",
+  "license": "ISC"
+}
