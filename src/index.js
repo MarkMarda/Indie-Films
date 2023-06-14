@@ -1,15 +1,18 @@
-const expres = require("express");
+const express = require("express");
 
 const config = require("./config");
 const dataBase = require("./utils/database");
 
+const languagesRouter = require("./languages/languages.router");
 
-const app = expres();
 
-app.use(expres.json());
+
+const app = express();
+
+app.use(express.json());
 
 //Here DB is connected
-dataBase()
+dataBase();
 
 app.get("/", (req, res) => {
 
@@ -20,6 +23,7 @@ app.get("/", (req, res) => {
 
 });
 
+app.use("/api/v1/languages", languagesRouter)
 // mongoose.connection.once("open", () => {
 //   console.log("connected to dataBase")
 // })
