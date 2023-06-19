@@ -1,0 +1,68 @@
+openapi: 3.1.0
+
+info:
+  title: Indie-Films
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:9000/api/v1/indie-films
+
+tags:
+  - name: Languages
+  - name: Films
+  - name: Classifications
+  - name: Genres
+  
+paths:
+  /languages:
+    post:
+      tags:
+        - Languages
+      summary: Create a new language
+      requestBody:
+        description: Add new language
+        content:
+          aplication/json:
+            schema:
+              $ref: '#/components/schemas/Language'
+        required: true
+      responses:
+        '201':
+          description: Succesful process.
+        '400':
+          description: Validation error. / Invalid data.
+    get:
+      tags:
+        - Languages
+      summary: Obtain a array of languages.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+  /films:
+    post:
+      tags:
+        - Films
+      summary: Create a new film
+      responses:
+        '201':
+          description: Succesful process.
+    get:
+      tags:
+        - Films
+      summary: Obtain a array of films.
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    Language: 
+      required: 
+        - name
+      type: object 
+      properties:
+        name:
+          type: string
+          example: Spanish

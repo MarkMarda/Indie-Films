@@ -1,9 +1,14 @@
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
 
 const config = require("./config");
 const dataBase = require("./utils/database");
-
+// const openapiDocument = require("./utils/configYaml");
+// console.log(openapiDocument)
 const languagesRouter = require("./languages/languages.router");
+
+const documentation = YAML.load("documentation/openapi.yaml");
 
 
 
@@ -24,6 +29,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/languages", languagesRouter)
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation))
 // mongoose.connection.once("open", () => {
 //   console.log("connected to dataBase")
 // })
