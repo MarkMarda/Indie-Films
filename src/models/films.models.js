@@ -10,30 +10,73 @@ const filmSchema = new mongoose.Schema({
   originalTitle:{
     type: String,
     required: true,
+    lowercase: true,
+    trim: true
   },
   englishTitle: {
     type: String,
     required: true,
+    lowercase: true,
+    trim: true
   },
-  image: {},
-  director: {}, /*puede ser llamado de FilmDirectors*/
-  country: {}, /*puede ser llamado de FilmDirectors*/
-  year: {},
-  synopsis: {},
-  genre: [{
+  image: {
+    type: String,
+  },
+  director: {
     type: String,
     required: true
+  }, /*puede ser llamado de FilmDirectors*/
+  country: {
+    type: String,
+    required: true
+  }, /*puede ser llamado de FilmDirectors*/
+  year: {
+    type: Number,
+    required: true
+  },
+  synopsis: {
+    type: String,
+    lowercase: true,
+    trim: true
+  },
+  classification: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Classification",
+    required: true
+  },
+  genre: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Genre',
+    required: true
   }],
-  duration: {},
+  duration: {
+    type: Number,
+    required: true
+  },
   festivals: [{
-    type: String
+    type: String,
+    lowercase: true,
+    trim: true
   }],
   awards: [{
-    type: String
+    type: String,
+    lowercase: true,
+    trim: true
   }],
-  originalLanguage: {},
-  translationAudio: [{}],
-  subtituleLanguages: [{}]
+  originalLanguage: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Language",
+    required: true
+  }],
+  translationAudio: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Language"
+  }],
+  subtituleLanguages: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Language",
+    required: true
+  }]
 
 });
 
