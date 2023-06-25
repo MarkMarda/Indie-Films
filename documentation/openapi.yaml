@@ -14,13 +14,28 @@ tags:
   - name: Genres
   
 paths:
+  /films:
+    post:
+      tags:
+        - Films
+      summary: Create a new film
+      responses:
+        '201':
+          description: Succesful process.
+    get:
+      tags:
+        - Films
+      summary: Obtain a array of films.
+      responses:
+        '200':
+          description: OK
   /languages:
     post:
       tags:
         - Languages
-      summary: Create a new language
+      summary: Create a new language.
       requestBody:
-        description: Add new language
+        description: Add new language.
         content:
           aplication/json:
             schema:
@@ -40,21 +55,69 @@ paths:
           description: OK
         '400':
           description: Validation error.
-  /films:
+  /classifications:
     post:
       tags:
-        - Films
-      summary: Create a new film
+        - Classifications
+      summary: Create a new classification of film.
+      requestBody:
+        description: Add new classification.
+        content:
+          aplication/json:
+            schema:
+              $ref: '#/components/schemas/Classification'
+        required: true
       responses:
         '201':
           description: Succesful process.
+        '400':
+          description: Validation error.
+        '404': 
+          description: Invalid data.
     get:
       tags:
-        - Films
-      summary: Obtain a array of films.
+        - Classifications
+      summary: Obtain a array of classifications of films.
       responses:
         '200':
           description: OK
+        '400':
+          description: Validation error.
+  /classifications/:id:
+    get:
+      tags:
+        - Classifications
+      summary: Obtain a classification of film by Id.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Classification with id was not found.
+    put:
+      tags:
+        - Classifications
+      summary: Edit the name of classification.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Classification with id was not found. / Invalid data.
+    delete:
+      tags:
+        - Classifications
+      summary: Delete a classification of film by Id.
+      responses:
+        '204':
+          description: The resource was deleted successfully.
+        '400':
+          description: Validation error.
+        '404':
+          description: Invalid Id.
+# TODO: comentar las respuestas porque aparece example: string    
 
 components:
   schemas:
@@ -65,4 +128,12 @@ components:
       properties:
         name:
           type: string
-          example: Spanish
+          example: spanish
+    Classification:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: adult
