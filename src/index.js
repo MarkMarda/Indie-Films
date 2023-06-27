@@ -7,7 +7,8 @@ const dataBase = require("./utils/database");
 // const openapiDocument = require("./utils/configYaml");
 // console.log(openapiDocument)
 const languagesRouter = require("./languages/languages.router");
-const classificationRoutes = require("./classifications/classifications.routes");
+const classificationsRoutes = require("./classifications/classifications.routes");
+const genresRoutes = require("./genres/genres.routes");
 
 const documentation = YAML.load("documentation/openapi.yaml");
 
@@ -30,7 +31,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/languages", languagesRouter)
-app.use("/classifications", classificationRoutes)
+app.use("/classifications", classificationsRoutes)
+app.use("/genres", genresRoutes)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation))
 // mongoose.connection.once("open", () => {
 //   console.log("connected to dataBase")
