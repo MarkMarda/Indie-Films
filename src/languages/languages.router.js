@@ -6,13 +6,12 @@ const languagesServices = require("./languages.services");
 
 router.route("/")
   .get(languagesServices.getAllLanguages)
-  .post(languagesServices.postLanguages);
+  .post(languagesServices.postLanguage);
 
 router.route("/:id")
-  .get()
-  .patch()
-  .put()
-  .delete();
+  .get(languagesServices.getLanguageById)
+  .put(languagesServices.putLanguage)
+  .delete(languagesServices.deleteLanguage);
 
 
 module.exports = router;
