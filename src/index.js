@@ -6,7 +6,7 @@ const config = require("./config");
 const dataBase = require("./utils/database");
 // const openapiDocument = require("./utils/configYaml");
 // console.log(openapiDocument)
-const languagesRouter = require("./languages/languages.router");
+const languagesRoutes = require("./languages/languages.routes");
 const classificationsRoutes = require("./classifications/classifications.routes");
 const genresRoutes = require("./genres/genres.routes");
 
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 
 });
 
-app.use("/languages", languagesRouter)
+app.use("/languages", languagesRoutes)
 app.use("/classifications", classificationsRoutes)
 app.use("/genres", genresRoutes)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation))
