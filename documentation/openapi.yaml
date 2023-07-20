@@ -55,6 +55,56 @@ paths:
           description: OK
         '400':
           description: Validation error.
+  /languages/{languageId}:
+    parameters:
+      - in: path
+        name: languageId
+        schema: 
+          type: string
+        required: true
+    put: 
+      tags:
+        - Languages 
+      summary: Edit the name of language.
+      operationId: updateLanguageById
+      requestBody:
+        description: Update the name of language.
+        content:
+          aplication/json:
+            schema: 
+              $ref: '#/components/schemas/Language'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Language with id was not found. / Invalid data.
+    get: 
+      tags:
+        - Languages
+      summary: Obtain a language of film by Id.
+      operationId: getLanguageById
+      responses:
+        '200': 
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Language with id was not found.
+    delete:
+      tags:
+        - Languages
+      summary: Delete a language of film by Id.
+      operationId: deleteLanguageById
+      responses:
+        '204':
+          description: The resource was deleted successfully.
+        '400':
+          description: Validation error.
+        '404':
+          description: Invalid Id.
   /classifications:
     post:
       tags:
@@ -83,22 +133,25 @@ paths:
           description: OK
         '400':
           description: Validation error.
-  /classifications/:id:
-    get:
-      tags:
-        - Classifications
-      summary: Obtain a classification of film by Id.
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Validation error.
-        '404':
-          description: Classification with id was not found.
+  /classifications/{classificationId}:
+    parameters:
+      - in: path
+        name: classificationId 
+        schema: 
+          type: string
+        required: true
     put:
       tags:
         - Classifications
       summary: Edit the name of classification.
+      operationId: updateClassificationById
+      requestBody: 
+        description: Update the name of classification.
+        content:
+          aplication/json:
+            schema: 
+              $ref: '#/components/schemas/Classification'
+        required: true
       responses:
         '200':
           description: OK
@@ -106,10 +159,23 @@ paths:
           description: Validation error.
         '404':
           description: Classification with id was not found. / Invalid data.
+    get:
+      tags:
+        - Classifications
+      summary: Obtain a classification of film by Id.
+      operationId: getClassificationById
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Classification with id was not found.
     delete:
       tags:
         - Classifications
       summary: Delete a classification of film by Id.
+      operationId: deleteClassificationById
       responses:
         '204':
           description: The resource was deleted successfully.
@@ -117,7 +183,87 @@ paths:
           description: Validation error.
         '404':
           description: Invalid Id.
-# TODO: comentar las respuestas porque aparece example: string    
+  /genres:
+    post:
+      tags:
+        - Genres
+      summary: Create a new genre of film.
+      requestBody:
+        description: Add new genre.
+        content:
+          aplication/json:
+            schema: 
+              $ref: '#/components/schemas/Genre'
+        required: true
+      responses:
+        '201':
+          description: Succesful process.
+        '400':
+          description: Validation error.
+        '404':
+          description: Invalid data.
+    get:
+      tags:
+        - Genres
+      summary: Obtain a array of genres of films.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+  /genres/{genreId}:
+    parameters:
+      - in: path
+        name: genreId
+        schema: 
+          type: string
+        required: true
+    put:
+      tags:
+        - Genres
+      summary: Edit the name of genre.
+      operationId: updateGenreById
+      requestBody:
+        description: Update the name of genre.
+        content:
+          aplication/json:
+            schema: 
+              $ref: '#/components/schemas/Genre'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Genre with id was not found. / Invalid data.
+    get:
+      tags:
+        - Genres
+      summary: Obtain a genre of film by Id.
+      operationId: getGenreById
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Genre with id was not found.
+    delete:
+      tags:
+        - Genres
+      summary: Delete a genre of film by Id.
+      operationId: deleteGenreById
+      responses:
+        '204':
+          description: The source was deleted successfully.
+        '400': 
+          description: Validation error.
+        '404':
+          description: Invalid Id.
+    
+# TODO: comentar las respuestas porque aparece example: string
+# TODO: de los que tienen params buscar el operationId: esta en el get de genresID 
 
 components:
   schemas:
@@ -137,3 +283,18 @@ components:
         name:
           type: string
           example: adult
+    Genre: 
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: drama
+  parameters:
+    genreParam:
+      name: genreId
+      in: path
+      required: true
+      schema:
+        type: string
