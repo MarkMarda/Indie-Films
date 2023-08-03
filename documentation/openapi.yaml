@@ -19,9 +19,18 @@ paths:
       tags:
         - Films
       summary: Create a new film
+      requestBody:
+        description: Add new film.
+        content:
+          aplication/json:
+            schema: 
+              $ref: '#/components/schemas/Film'
+        required: true
       responses:
         '201':
           description: Succesful process.
+        '400':
+          description: Validation error. / Invalid data.
     get:
       tags:
         - Films
@@ -29,6 +38,103 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Validation error.
+  /films/{filmId}:
+    parameters:
+      - in: path
+        name: filmId
+        schema: 
+          type: string
+        required: true
+    put:
+      tags:
+        - Films
+      summary: Edit the data of film.
+      operationId: putFilmById
+      requestBody:
+        description: Update the data of film.
+        content:
+          aplication/json:
+            schema: 
+              $ref: '#/components/schemas/FilmPut'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error. / Image can not be edited.
+        '404':
+          description: Film with id was not found. / Invalid data.
+    patch:
+      tags:
+        - Films
+      summary: Edit partial data of films.
+      operationId: patchFilmById
+      requestBody:
+        description: Update the data of film.
+        content:
+          aplication/json: 
+            schema: 
+              $ref: '#/components/schemas/FilmPatch'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error. / Image can not be edited.
+        '404':
+          description: Film with id was not found.
+    get: 
+      tags:
+        - Films
+      summary: Obtain a film by Id.
+      operationId: getFilmById
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Film with id was not found.
+    delete:
+      tags:
+        - Films
+      summary: Delete a film by Id.
+      operationId: deleteFilmById
+      responses:
+        '204':
+          description: The resource was deleted successfully.
+        '400':
+          description: Validation error.
+        '404':
+          description: Invalid Id.
+  /films/image/{filmId}:
+    parameters:
+      - in: path
+        name: filmId
+        schema: 
+          type: string
+        required: true
+    put: 
+      tags:
+        - Films
+      summary: Edit the image of a film by Id.
+      operationId: putImageFilmById
+      requestBody: 
+        description: Update the image film.
+        content:
+          form-data:
+            schema: 
+              $ref: '#/components/schemas/FilmImage'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error. / File was not provided.
+        '404':
+          description: Film with id was not found.
   /languages:
     post:
       tags:
@@ -264,9 +370,186 @@ paths:
     
 # TODO: comentar las respuestas porque aparece example: string
 # TODO: de los que tienen params buscar el operationId: esta en el get de genresID 
+# TODO: trabajar el example de FilmImage, no se ven los ejemplos
 
 components:
   schemas:
+    Film: 
+      required:
+        - originalTitle
+        - englishTitle
+        - director
+        - country
+        - year
+        - classification
+        - genre 
+        - duration
+        - originalLanguage
+        - subtituleLanguages
+      type: object
+      properties:
+        originalTitle:
+          type: string
+          example: reprise
+        englishTitle:
+          type: string
+          example: 
+        image:
+          type: string
+          example: 
+        director:
+          type:
+          example:
+        country:
+          type:
+          example:
+        year:
+          type: number
+          example: 2021
+        synopsis:
+          type: string
+          example: 
+        classification: 
+          type: ObjectId
+          example: 64bb4c0227da3b0b44723b80
+        genre: 
+          type: ObjectId
+          example: 64bb4bdc27da3b0b44723b7d
+        duration:
+          type: number
+          example: 120
+        festivals:
+          type: string
+          example: toronto
+        awards:
+          type: string
+          example:
+        originalLanguage:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+        translationAudio:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+        subtituleLanguages:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+    FilmPut:
+      required:
+        - originalTitle
+        - englishTitle
+        - director
+        - country
+        - year
+        - synopsis
+        - classification
+        - genre 
+        - duration
+        - festivals
+        - awards
+        - originalLanguage
+        - translationAudio
+        - subtituleLanguages
+      type: object
+      properties:
+        originalTitle:
+          type: string
+          example: reprise
+        englishTitle:
+          type: string
+          example:  
+        director:
+          type:
+          example:
+        country:
+          type:
+          example:
+        year:
+          type: number
+          example: 2021
+        synopsis:
+          type: string
+          example: 
+        classification: 
+          type: ObjectId
+          example: 64bb4c0227da3b0b44723b80
+        genre: 
+          type: ObjectId
+          example: 64bb4bdc27da3b0b44723b7d
+        duration:
+          type: number
+          example: 120
+        festivals:
+          type: string
+          example: toronto
+        awards:
+          type: string
+          example:
+        originalLanguage:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+        translationAudio:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+        subtituleLanguages:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+    FilmPatch:
+      type: object
+      properties:
+        originalTitle:
+          type: string
+          example: reprise
+        englishTitle:
+          type: string
+          example:  
+        director:
+          type:
+          example:
+        country:
+          type:
+          example:
+        year:
+          type: number
+          example: 2021
+        synopsis:
+          type: string
+          example: 
+        classification: 
+          type: ObjectId
+          example: 64bb4c0227da3b0b44723b80
+        genre: 
+          type: ObjectId
+          example: 64bb4bdc27da3b0b44723b7d
+        duration:
+          type: number
+          example: 120
+        festivals:
+          type: string
+          example: toronto
+        awards:
+          type: string
+          example:
+        originalLanguage:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+        translationAudio:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+        subtituleLanguages:
+          type: ObjectId
+          example: 645dbd910c3480cce0ac3246
+    FilmImage:
+      required:
+        - image
+      type: object
+      properties:
+        type: string
+        format: binary
+        contentMediaType: image/jpeg
+        example: |
+          Content-Type: image/jpg - image/jpeg - image/png
+          Content-Disposition: form-data; name='image'; filename='example.jpg'
+          (Binary file content)
     Language: 
       required: 
         - name
