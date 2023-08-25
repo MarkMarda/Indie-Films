@@ -11,6 +11,7 @@ const filmsRoutes = require("./films/films.routes");
 const languagesRoutes = require("./languages/languages.routes");
 const classificationsRoutes = require("./classifications/classifications.routes");
 const genresRoutes = require("./genres/genres.routes");
+const countriesRoutes = require("./countries/countries.routes");
 
 const documentation = YAML.load("documentation/openapi.yaml");
 
@@ -43,6 +44,7 @@ app.use("/api/v1/indie-films/films", filmsRoutes)
 app.use("/api/v1/indie-films/languages", languagesRoutes)
 app.use("/api/v1/indie-films/classifications", classificationsRoutes)
 app.use("/api/v1/indie-films/genres", genresRoutes)
+app.use("/api/v1/indie-films/countries", countriesRoutes)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation))
 // mongoose.connection.once("open", () => {
 //   console.log("connected to dataBase")
