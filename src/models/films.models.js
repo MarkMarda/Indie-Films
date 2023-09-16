@@ -26,10 +26,11 @@ const filmSchema = new mongoose.Schema({
     type: String,
     required: true
   }, /*puede ser llamado de FilmDirectors*/
-  country: {
-    type: String,
+  country: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Country",
     required: true
-  }, /*puede ser llamado de FilmDirectors*/
+  }],
   year: {
     type: Number,
     required: true
