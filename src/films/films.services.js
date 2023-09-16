@@ -7,7 +7,7 @@ cloudinary.config({cloudinary: config.cloudinary});
 
 
 
-const postFilm = (req, res) => {
+const postFilm = async (req, res) => {
 
   const {
     originalTitle,
@@ -61,6 +61,63 @@ const postFilm = (req, res) => {
         translationAudio: "String"
       }
     });
+  };
+
+  //Case: user wants post with a image file
+  //? to resolve TypeError: Cannot read properties of null (reading "image")
+  if (req.files || req.files?.image) {
+    const imageFile = req.files.image;
+
+    const fileTypes = ["image/jpg", "image/png", "image/jpeg"];
+    const fileExtensions = ["jpg", "png", "jpeg"];
+    const fileSize = 10000000;
+
+    if (!fileTypes.includes(imageFile.mimetype)) {
+      return res.status(400).json({message: "File types: png, jpeg and jpg"});
+    }
+  
+    if (!fileExtensions.includes(imageFile.name.split(".")[1])) {
+      return res.status(400).json({message: "File extensions: png, jpeg and jpg"});
+    }
+  
+    if (imageFile.size > fileSize) {
+      return res.status(400).json({message: "File size: 10Mb"});
+    }
+
+    const uploadedImage = await cloudinary.uploader.upload(
+      imageFile.tempFilePath,
+      {
+        folder: "Indie-Films/films",
+        use_filename: true,
+        unique_filename: false
+      }
+    );
+
+    let imageUrl = uploadedImage.secure_url;
+
+    return filmsControllers.createFilms({
+      originalTitle,
+      englishTitle,
+      image: imageUrl,
+      director,
+      country,
+      year,
+      synopsis,
+      classification,
+      genre,
+      duration,
+      festivals,
+      awards,
+      originalLanguage,
+      translationAudio,
+      subtituleLanguages 
+    })
+      .then(data => {
+        res.status(201).json(data);
+      })
+      .catch(err => {
+        res.status(400).json({message: err.message});
+      });
   };
 
   filmsControllers.createFilms({
@@ -222,9 +279,13 @@ const patchFilm = async (req, res) => {
 const putImageFilm = async (req, res) => {
 
   const {id} = req.params;
+
+  const imageFile = req.files.image;
   
   //TODO:validar extensiones de archivos
-  const fileExtensions = ["jpg, png, jpeg"];
+  const fileTypes = ["image/jpg", "image/png", "image/jpeg"];
+  const fileExtensions = ["jpg", "png", "jpeg"];
+  const fileSize = 10000000;
   
   if (!id) {
     return res.status(404).json({message: `Film with Id: ${id} was not found.`});
@@ -234,7 +295,17 @@ const putImageFilm = async (req, res) => {
     return res.status(400).json({message: "File was not provided."})
   }
 
-  const imageFile = req.files.image;
+  if (!fileTypes.includes(imageFile.mimetype)) {
+    return res.status(400).json({message: "File types: png, jpeg and jpg"});
+  }
+
+  if (!fileExtensions.includes(imageFile.name.split(".")[1])) {
+    return res.status(400).json({message: "File extensions: png, jpeg and jpg"});
+  }
+
+  if (imageFile.size > fileSize) {
+    return res.status(400).json({message: "File size: 10Mb"});
+  }
 
   const uploadedImage = await cloudinary.uploader.upload(
     imageFile.tempFilePath,
