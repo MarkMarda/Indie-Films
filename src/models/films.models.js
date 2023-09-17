@@ -24,7 +24,9 @@ const filmSchema = new mongoose.Schema({
   },
   director: {
     type: String,
-    required: true
+    required: true,
+    lowercase: true,
+    trim: true
   }, /*puede ser llamado de FilmDirectors*/
   country: [{
     type: mongoose.Schema.Types.ObjectId,

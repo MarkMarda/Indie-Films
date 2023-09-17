@@ -27,6 +27,8 @@ const postFilm = async (req, res) => {
     subtituleLanguages 
   } = req.body;
 
+  const validImage = ["/^https?:\/\/[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,6}(?::\d+)?\/[a-zA-Z0-9-_.?#\[\]@!$&'()*+,;=~_|%.]+$/"];
+
   if (
     !originalTitle 
     || !englishTitle 
@@ -118,6 +120,11 @@ const postFilm = async (req, res) => {
       .catch(err => {
         res.status(400).json({message: err.message});
       });
+  };
+
+  //Validate is a URL
+  if (image !== image?.includes(validImage)) {
+    return res.status(400).json({message: "Image must be a file"});
   };
 
   filmsControllers.createFilms({
@@ -282,7 +289,6 @@ const putImageFilm = async (req, res) => {
 
   const imageFile = req.files.image;
   
-  //TODO:validar extensiones de archivos
   const fileTypes = ["image/jpg", "image/png", "image/jpeg"];
   const fileExtensions = ["jpg", "png", "jpeg"];
   const fileSize = 10000000;
@@ -368,11 +374,9 @@ module.exports = {
 /*TODO: 
 1- Cambiar los codigos http del post, Me parece no es 404
 2- Revisar el put
-3- Como le hago si deseo evitar que no se inserte un dato que no pido
+3- Evitar que no se inserte un dato que no pido
     en el put o patch? Porque se puede en el Patch si no pongo esa
     restriccion
-4- Falta imagen del post por si se desea publicar
 5- Agregar a languages una opcion de Ninguno por si es el caso
 6- Probar si los IF CON EL DATA funcion en el PUT
-7- Validar EXTENCIONES DE IMAGENES en putImage y Post,
 */
