@@ -11,8 +11,9 @@ servers:
     description: Production server
 
 tags:
-  - name: Languages
   - name: Films
+  - name: Countries
+  - name: Languages
   - name: Classifications
   - name: Genres
   
@@ -138,6 +139,82 @@ paths:
           description: Validation error. / File was not provided.
         '404':
           description: Film with id was not found.
+  /countries:
+    post:
+      tags:
+        - Countries
+      summary: Create a new country.
+      requestBody:
+        description: Add new country.
+        content:
+          aplication/json:
+            schema: 
+              $ref: '#/components/schemas/Country'
+        required: true
+      responses:
+        '201':
+          description: Succesful process.
+        '400':
+          description: Validation error. / Invalid data.
+    get:
+      tags:
+        - Countries
+      summary: Obtain a array of countries.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+  /countries/{countryId}:
+    parameters:
+      - in: path
+        name: countryId
+        schema: 
+          type: string
+        required: true
+    put:
+      tags:
+        - Countries
+      summary: Edit the name of country.
+      operationId: updateCountryById
+      requestBody:
+        description: Update the name of country.
+        content:
+          aplication/json: 
+            schema: 
+              $ref: '#/components/schemas/Country'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404':
+          description: Country with id was not found. / Invalid data.
+    get:
+      tags:
+        - Countries
+      summary: Obtain a country of film by Id.
+      operationId: getCountryById
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation error.
+        '404': 
+          description: Country with id was not found.
+    delete:
+      tags:
+        - Countries
+      summary: Delete a country of film by Id.
+      operationId: deleteCountryById
+      responses:
+        '204':
+          description: The resource was deleted successfully.
+        '400':
+          description: Validation error.
+        '404':
+          description: Invalid Id.
   /languages:
     post:
       tags:
@@ -583,6 +660,14 @@ components:
             Content-Type: image/jpg - image/jpeg - image/png
             Content-Disposition: form-data; name='image'; filename='example.jpg'
             (Binary file content)
+    Country: 
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: norway
     Language: 
       required: 
         - name
