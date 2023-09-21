@@ -22,12 +22,12 @@ const filmSchema = new mongoose.Schema({
   image: {
     type: String,
   },
-  director: {
+  director: [{
     type: String,
     required: true,
     lowercase: true,
     trim: true
-  }, /*puede ser llamado de FilmDirectors*/
+  }], /*puede ser llamado de FilmDirectors*/
   country: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Country",
