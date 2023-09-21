@@ -6,6 +6,9 @@ info:
 
 servers:
   - url: http://localhost:9000/api/v1/indie-films
+    description: Development server
+  - url: https://indie-films.onrender.com/api/v1/indie-films
+    description: Production server
 
 tags:
   - name: Languages
@@ -22,7 +25,7 @@ paths:
       requestBody:
         description: Add new film.
         content:
-          aplication/json:
+          multipart/form-data:
             schema: 
               $ref: '#/components/schemas/Film'
         required: true
@@ -124,7 +127,7 @@ paths:
       requestBody: 
         description: Update the image film.
         content:
-          form-data:
+          multipart/form-data:
             schema: 
               $ref: '#/components/schemas/FilmImage'
         required: true
@@ -393,45 +396,58 @@ components:
           example: reprise
         englishTitle:
           type: string
-          example: 
+          example: reprise
         image:
           type: string
-          example: 
+          format: binary
+          contentMediaType: image/jpeg - image/jpg - image/png
+          example: |
+            Content-Type: image/jpg - image/jpeg - image/png
+            Content-Disposition: form-data; name='image'; filename='example.jpg'
+            (Binary file content)
         director:
-          type:
-          example:
+          type: string
+          format: array
+          example: joachim trier
         country:
-          type:
-          example:
+          type: countryObjectId
+          format: array
+          example: 64e833db84e13610c042a94b
         year:
           type: number
           example: 2021
         synopsis:
           type: string
-          example: 
+          example: this is a norwegian film
         classification: 
-          type: ObjectId
+          type: classificationObjectId
           example: 64bb4c0227da3b0b44723b80
         genre: 
-          type: ObjectId
+          type: genreObjectId
+          format: array
           example: 64bb4bdc27da3b0b44723b7d
         duration:
           type: number
           example: 120
         festivals:
           type: string
+          format: array
           example: toronto
         awards:
           type: string
-          example:
+          format: array
+          example: sundance film festival
         originalLanguage:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
         translationAudio:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
         subtituleLanguages:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
     FilmPut:
       required:
@@ -456,42 +472,50 @@ components:
           example: reprise
         englishTitle:
           type: string
-          example:  
+          example: reprise
         director:
-          type:
-          example:
+          type: string
+          format: array
+          example: joachim trier
         country:
-          type:
-          example:
+          type: countryObjectId
+          format: array
+          example: 64e833db84e13610c042a94b
         year:
           type: number
           example: 2021
         synopsis:
           type: string
-          example: 
+          example: this is a norwegian film
         classification: 
-          type: ObjectId
+          type: classificationObjectId
           example: 64bb4c0227da3b0b44723b80
         genre: 
-          type: ObjectId
+          type: genreObjectId
+          format: array
           example: 64bb4bdc27da3b0b44723b7d
         duration:
           type: number
           example: 120
         festivals:
           type: string
+          format: array
           example: toronto
         awards:
           type: string
-          example:
+          format: array
+          example: sundance film festival
         originalLanguage:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
         translationAudio:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
         subtituleLanguages:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
     FilmPatch:
       type: object
@@ -501,55 +525,64 @@ components:
           example: reprise
         englishTitle:
           type: string
-          example:  
+          example: reprise
         director:
-          type:
-          example:
+          type: string
+          format: array
+          example: joachim trier
         country:
-          type:
-          example:
+          type: countryObjectId
+          format: array
+          example: 64e833db84e13610c042a94b
         year:
           type: number
           example: 2021
         synopsis:
           type: string
-          example: 
+          example: this is a norwegian film
         classification: 
-          type: ObjectId
+          type: classificationObjectId
           example: 64bb4c0227da3b0b44723b80
         genre: 
-          type: ObjectId
+          type: genreObjectId
+          format: array
           example: 64bb4bdc27da3b0b44723b7d
         duration:
           type: number
           example: 120
         festivals:
           type: string
+          format: array
           example: toronto
         awards:
           type: string
-          example:
+          format: array
+          example: sundance film festival
         originalLanguage:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
         translationAudio:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
         subtituleLanguages:
-          type: ObjectId
+          type: languageObjectId
+          format: array
           example: 645dbd910c3480cce0ac3246
     FilmImage:
       required:
         - image
       type: object
       properties:
-        type: string
-        format: binary
-        contentMediaType: image/jpeg
-        example: |
-          Content-Type: image/jpg - image/jpeg - image/png
-          Content-Disposition: form-data; name='image'; filename='example.jpg'
-          (Binary file content)
+        image:
+          type: string
+          format: binary
+          contentMediaType: image/jpeg - image/jpg - image/png
+          example: |
+            Content-Type: image/jpg - image/jpeg - image/png
+            Content-Disposition: form-data; name='image'; filename='example.jpg'
+            (Binary file content)
     Language: 
       required: 
         - name
